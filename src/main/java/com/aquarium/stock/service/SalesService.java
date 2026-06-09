@@ -13,14 +13,27 @@ public class SalesService {
 
     private final SalesRepository salesRepository;
     
+    /**
+     * 全件取得
+     * @return 販売リスト
+     */
     public List<Sales> findAll(){
         return salesRepository.findAll();
     }
     
+    /**
+     * 登録・更新
+     * @param sales 販売
+     * @return 登録・更新した販売
+     */
     public Sales save(Sales sales){
         return salesRepository.save(sales);
     }
     
+    /**
+     * 削除
+     * @param id 販売ID
+     */
     public void delete(Long id){
         salesRepository.deleteById(id);
     }

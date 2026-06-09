@@ -13,14 +13,27 @@ public class LossService {
     
     private final LossRepository lossRepository;
     
+    /**
+     * 全件取得
+     * @return ロスデータのリスト
+     */
     public List<Loss> findAll(){
         return lossRepository.findAll();
     }
 
+    /**
+     * 登録・更新
+     * @param loss ロスデータ
+     * @return 登録・更新したロスデータ
+     */
     public Loss save(Loss loss){
         return lossRepository.save(loss);
     }
 
+    /**
+     * 削除
+     * @param id ロスID
+     */
     public void delete(Long id){
         lossRepository.deleteById(id);
     }
