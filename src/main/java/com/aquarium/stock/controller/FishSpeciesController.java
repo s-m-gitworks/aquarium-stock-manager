@@ -2,6 +2,7 @@ package com.aquarium.stock.controller;
 
 import com.aquarium.stock.entity.FishSpecies;
 import com.aquarium.stock.service.FishSpeciesService;
+import com.aquarium.stock.dto.FishSpeciesStockDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,5 +51,14 @@ public class FishSpeciesController {
     @GetMapping("/{id}/stock")
     public Integer getStock(@PathVariable Long id){
         return fishSpeciesService.calculateStock(id);
+    }
+
+    /**
+     * すべての魚種の在庫数を取得するAPI
+     * @return 魚種名と在庫数のリスト
+     */
+    @GetMapping("/stocks")
+    public List<FishSpeciesStockDto> getStockForAll(){
+        return fishSpeciesService.calculateStockforAll();
     }
 }

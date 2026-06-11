@@ -11,6 +11,6 @@ public interface ArrivalRepository extends JpaRepository<Arrival, Long> {
      * @param fishSpeciesId 魚種ID
      * @return 入荷数量の合計
      */
-    @Query("SELECT COALESCE(SUM(a.quantity),0) FROM Arrival aWHERE a.fishSpecies.id = :fishSpeciesId")
+    @Query("SELECT COALESCE(SUM(a.quantity),0) FROM Arrival a WHERE a.fishSpecies.id = :fishSpeciesId")
     Integer sumQuantityByFishSpeciesId(@Param("fishSpeciesId") Long fishSpeciesId);
 }

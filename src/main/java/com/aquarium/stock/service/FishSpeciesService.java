@@ -6,9 +6,11 @@ import com.aquarium.stock.repository.FishSpeciesRepository;
 import com.aquarium.stock.repository.LossRepository;
 import com.aquarium.stock.repository.SalesRepository;
 import com.aquarium.stock.repository.TransferRepository;
+import com.aquarium.stock.dto.FishSpeciesStockDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,6 +35,21 @@ public class FishSpeciesService {
         Integer lost = lossRepository.sumQuantityByFishSpeciesId(fishSpeciesId);
         Integer transferred = transferRepository.sumQuantityByFishSpeciesId(fishSpeciesId);
         return arrived - sold - lost - transferred;
+    }
+
+    /**
+     * すべての魚種の在庫数を計算する関数
+     * @return 魚種名と在庫数のリスト
+     */
+    public List<FishSpeciesStockDto> calculateStockforAll(){
+        List<FishSpecies> allSpecies = fishSpeciesRepository.findAll();
+        List<FishSpeciesStockDto> result = new ArrayList<>();
+
+        for(FishSpecies species : allSpecies){
+            Integer stock = calculateStock(species.getId());
+            result.add(new FishSpeciesStockDto(species.getName(), stock));
+        }
+        return result;
     }
 
     /**
