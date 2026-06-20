@@ -1,6 +1,8 @@
 package com.aquarium.stock.service;
 
 import com.aquarium.stock.entity.Sales;
+import com.aquarium.stock.entity.SalesPrice;
+import com.aquarium.stock.repository.SalesPriceRepository;
 import com.aquarium.stock.repository.SalesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,8 @@ import java.util.List;
 public class SalesService {
 
     private final SalesRepository salesRepository;
-    
+    private final SalesPriceRepository salesPriceRepository;
+
     /**
      * 全件取得
      * @return 販売リスト
@@ -27,8 +30,18 @@ public class SalesService {
      * @return 登録・更新した販売
      */
     public Sales save(Sales sales){
+                if (sales.getPriceExcludingTax() == null){
+            SalesPrice price = salesPriceRepository.findByFishSpecies_Id(sales.getFishSpecies().getId())
+                 .orElseThrow(() -> new IllegalStateException("価格が登録されていません"));
+
+            sales.setPriceExcludingTax(price.getPriceExcludingTax());
+            sales.setPriceIncludingTax(price.getPriceIncludingTax());
+        }
+        
         return salesRepository.save(sales);
     }
+
+
     
     /**
      * 削除
