@@ -41,6 +41,11 @@ public class Loss {
     @Column(nullable = false)
     private Double amount;
 
+    /** 損失理由 */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private LossReason lossReason;
+
     /** 備考 */
     private String note;
 }
