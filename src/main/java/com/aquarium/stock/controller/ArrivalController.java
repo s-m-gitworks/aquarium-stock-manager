@@ -29,7 +29,7 @@ public class ArrivalController {
      * @return 登録・更新した入荷データ
      */
     @PostMapping
-    public Arrival create(@RequestBody Arrival arrival) {
+    public Arrival save(@RequestBody Arrival arrival) {
         return arrivalService.save(arrival);
     }
 
