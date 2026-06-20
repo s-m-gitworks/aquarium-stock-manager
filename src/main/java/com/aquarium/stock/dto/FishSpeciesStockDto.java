@@ -8,4 +8,5 @@ import lombok.AllArgsConstructor;
 public class FishSpeciesStockDto {
     private String name;
     private Integer stock;
+    private String storeName;
 }

@@ -46,19 +46,21 @@ public class FishSpeciesController {
     /**
      * 在庫数取得API
      * @param id 魚種ID
+     * @param storeId 店舗ID
      * @return 在庫数
      */
     @GetMapping("/{id}/stock")
-    public Integer getStock(@PathVariable Long id){
-        return fishSpeciesService.calculateStock(id);
+    public Integer getStock(@PathVariable Long id, @RequestParam Long storeId){
+        return fishSpeciesService.calculateStock(id, storeId);
     }
 
     /**
      * すべての魚種の在庫数を取得するAPI
+     * @param storeId 店舗ID
      * @return 魚種名と在庫数のリスト
      */
     @GetMapping("/stocks")
-    public List<FishSpeciesStockDto> getStockForAll(){
-        return fishSpeciesService.calculateStockforAll();
+    public List<FishSpeciesStockDto> getStockForAll(@RequestParam Long storeId){
+        return fishSpeciesService.calculateStockforAll(storeId);
     }
 }

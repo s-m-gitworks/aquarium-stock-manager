@@ -1,10 +1,12 @@
 package com.aquarium.stock.service;
 
 import com.aquarium.stock.entity.FishSpecies;
+import com.aquarium.stock.entity.Store;
 import com.aquarium.stock.repository.ArrivalRepository;
 import com.aquarium.stock.repository.FishSpeciesRepository;
 import com.aquarium.stock.repository.LossRepository;
 import com.aquarium.stock.repository.SalesRepository;
+import com.aquarium.stock.repository.StoreRepository;
 import com.aquarium.stock.repository.TransferRepository;
 import com.aquarium.stock.dto.FishSpeciesStockDto;
 import lombok.RequiredArgsConstructor;
@@ -23,31 +25,36 @@ public class FishSpeciesService {
     private final SalesRepository salesRepository;
     private final LossRepository lossRepository;
     private final TransferRepository transferRepository;
+    private final StoreRepository storeRepository;
 
     /**
      * 魚種IDをもとに在庫数を計算する関数
      * @param fishSpeciesId 魚種ID
+     * @param storeId 店舗ID
      * @return 現在の在庫数
      */
-    public Integer calculateStock(Long fishSpeciesId){
-        Integer arrived = arrivalRepository.sumQuantityByFishSpeciesId(fishSpeciesId);
-        Integer sold = salesRepository.sumQuantityByFishSpeciesId(fishSpeciesId);
-        Integer lost = lossRepository.sumQuantityByFishSpeciesId(fishSpeciesId);
-        Integer transferred = transferRepository.sumQuantityByFishSpeciesId(fishSpeciesId);
-        return arrived - sold - lost - transferred;
+    public Integer calculateStock(Long fishSpeciesId, Long storeId){
+        Integer arrived = arrivalRepository.sumQuantityByFishSpeciesIdAndStoreId(fishSpeciesId, storeId);
+        Integer sold = salesRepository.sumQuantityByFishSpeciesIdAndStoreId(fishSpeciesId, storeId);
+        Integer lost = lossRepository.sumQuantityByFishSpeciesIdAndStoreId(fishSpeciesId, storeId);
+        Integer transferredIn = transferRepository.sumInQuantityByFishSpeciesIdAndStoreId(fishSpeciesId, storeId);
+        Integer transferredOut = transferRepository.sumOutQuantityByFishSpeciesIdAndStoreId(fishSpeciesId, storeId);
+        return arrived - sold - lost + transferredIn - transferredOut;
     }
 
     /**
      * すべての魚種の在庫数を計算する関数
+     * @param storeId 店舗ID
      * @return 魚種名と在庫数のリスト
      */
-    public List<FishSpeciesStockDto> calculateStockforAll(){
+    public List<FishSpeciesStockDto> calculateStockforAll(Long storeId){
         List<FishSpecies> allSpecies = fishSpeciesRepository.findAll();
+        Store store = storeRepository.findById(storeId).orElseThrow();
         List<FishSpeciesStockDto> result = new ArrayList<>();
 
         for(FishSpecies species : allSpecies){
-            Integer stock = calculateStock(species.getId());
-            result.add(new FishSpeciesStockDto(species.getName(), stock));
+            Integer stock = calculateStock(species.getId(), storeId);
+            result.add(new FishSpeciesStockDto(species.getName(), stock, store.getName()));
         }
         return result;
     }

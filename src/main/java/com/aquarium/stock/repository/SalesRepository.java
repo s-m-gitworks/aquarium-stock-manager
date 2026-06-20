@@ -8,11 +8,11 @@ import com.aquarium.stock.entity.Sales;
 
 public interface SalesRepository extends JpaRepository<Sales, Long> {
     /**
-     * 魚種IDをもとに販売数量の合計を返す
+     * 魚種IDと店舗IDをもとにその店舗からの販売数の合計数量を返す
      * @param fishSpeciesId 魚種ID
-     * @return 販売数量の合計
+     * @param storeId 店舗ID
+     * @return 販売数の合計数量
      */
-    @Query("SELECT COALESCE(SUM(s.quantity), 0) FROM Sales s WHERE s.fishSpecies.id = :fishSpeciesId")
-    Integer sumQuantityByFishSpeciesId(@Param("fishSpeciesId") Long fishSpeciesId);
-
+    @Query("SELECT COALESCE(SUM(s.quantity), 0) FROM Sales s WHERE s.fishSpecies.id = :fishSpeciesId AND s.store.id = :storeId")
+    Integer sumQuantityByFishSpeciesIdAndStoreId(@Param("fishSpeciesId") Long fishSpeciesId, @Param("storeId") Long storeId);
 }

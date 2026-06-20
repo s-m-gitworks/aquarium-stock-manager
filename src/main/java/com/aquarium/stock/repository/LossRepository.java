@@ -7,10 +7,11 @@ import org.springframework.data.repository.query.Param;
 
 public interface LossRepository extends JpaRepository<Loss, Long> {
     /**
-     * 魚種IDをもとにロスの合計を返す
+     * 魚種IDと店舗IDをもとにその店舗でのロスの合計数量を返す
      * @param fishSpeciesId 魚種ID
-     * @return ロスの合計
+     * @param storeId 店舗ID
+     * @return ロスの合計数量
      */
-    @Query("SELECT COALESCE(SUM(l.quantity), 0) FROM Loss l WHERE l.fishSpecies.id = :fishSpeciesId")
-    Integer sumQuantityByFishSpeciesId(@Param("fishSpeciesId") Long fishSpeciesId);
+    @Query("SELECT COALESCE(SUM(l.quantity), 0) FROM Loss l WHERE l.fishSpecies.id = :fishSpeciesId AND l.store.id = :storeId")
+    Integer sumQuantityByFishSpeciesIdAndStoreId(@Param("fishSpeciesId") Long fishSpeciesId, @Param("storeId") Long storeId);
 }
