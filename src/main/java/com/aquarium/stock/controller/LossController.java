@@ -2,6 +2,8 @@ package com.aquarium.stock.controller;
 
 import com.aquarium.stock.entity.Loss;
 import com.aquarium.stock.service.LossService;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +31,7 @@ public class LossController {
      * @return 登録・更新したロスデータ
      */
     @PostMapping
-    public Loss save(@RequestBody Loss loss){
+    public Loss save(@Valid @RequestBody Loss loss){
         return lossService.save(loss);
     }
 

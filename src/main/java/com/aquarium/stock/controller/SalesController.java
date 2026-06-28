@@ -29,7 +29,7 @@ public class SalesController {
      * @return 登録・更新した売上データ
      */
     @PostMapping
-    public Sales save(@RequestBody Sales sales){
+    public Sales save(@Valid @RequestBody Sales sales){
         return salesService.save(sales);
     }
 

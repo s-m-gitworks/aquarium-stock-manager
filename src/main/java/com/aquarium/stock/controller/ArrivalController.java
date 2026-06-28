@@ -4,6 +4,7 @@ import com.aquarium.stock.entity.Arrival;
 import com.aquarium.stock.service.ArrivalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class ArrivalController {
      * @return 登録・更新した入荷データ
      */
     @PostMapping
-    public Arrival save(@RequestBody Arrival arrival) {
+    public Arrival save(@Valid @RequestBody Arrival arrival) {
         return arrivalService.save(arrival);
     }
 

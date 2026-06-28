@@ -1,6 +1,8 @@
 package com.aquarium.stock.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -30,10 +32,13 @@ public class Loss {
     private FishSpecies fishSpecies;
 
     /** 損失日 */
+    @NotNull
     @Column(nullable = false)
     private LocalDate lossDate;
 
     /** 数量 */
+    @NotNull
+    @Min(1)
     @Column(nullable = false)
     private Integer quantity;
 

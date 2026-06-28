@@ -1,6 +1,8 @@
 package com.aquarium.stock.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -35,10 +37,13 @@ public class Transfer {
     private FishSpecies fishSpecies;
 
     /** 移動日 */
+    @NotNull
     @Column(nullable = false)
     private LocalDate transferDate;
 
     /** 移動数量 */
+    @NotNull
+    @Min(1)
     @Column(nullable = false)
     private Integer quantity;
 

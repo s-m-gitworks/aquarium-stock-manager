@@ -1,6 +1,8 @@
 package com.aquarium.stock.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -35,14 +37,18 @@ public class Arrival {
     private Supplier supplier;
 
     /** 入荷日 */
+    @NotNull
     @Column(nullable = false)
     private LocalDate arrivalDate;
 
     /** 数量 */
+    @NotNull
+    @Min(1)
     @Column(nullable = false)
     private Integer quantity;
 
     /** 仕入れ単価 */
+    @NotNull
     @Column(nullable = false)
     private Double costPrice;
 

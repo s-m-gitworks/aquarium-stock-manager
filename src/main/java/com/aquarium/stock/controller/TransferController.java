@@ -2,6 +2,7 @@ package com.aquarium.stock.controller;
 
 import com.aquarium.stock.entity.Transfer;
 import com.aquarium.stock.service.TransferService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,7 @@ public class TransferController {
      * @return 登録・更新した店舗間移動データ
      */
     @PostMapping
-    public Transfer save(@RequestBody Transfer transfer){
+    public Transfer save(@Valid @RequestBody Transfer transfer){
         return transferService.save(transfer);
     }
     
