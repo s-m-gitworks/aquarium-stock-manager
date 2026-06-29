@@ -2,6 +2,7 @@ package com.aquarium.stock.controller;
 
 import com.aquarium.stock.entity.Sales;
 import com.aquarium.stock.service.SalesService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
