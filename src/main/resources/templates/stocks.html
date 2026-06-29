@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang=ja xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在庫一覧</title>
+</head>
+<body>
+    <h1>在庫一覧</h1>
+
+    <!-- 店舗選択フォーム -->
+    <form method="get" action="/stocks">
+        <select name="storeId">
+            <option value="">店舗を選択してください</option>
+            <option th:each="store : ${stores}"
+                    th:value="${store.id}"
+                    th:text="${store.name}"
+                    th:selected="${store.id == selectedStoreId}">
+            </option>
+        </select>
+        <button type="submit">表示</button>
+    </form>
+
+    <!-- 在庫一覧テーブル -->
+     <div th:if="${stock != null}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>魚種名</th>
+                    <th>店舗名</th>
+                    <th>在庫数</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="stock : ${stocks}">
+                    <td th:text="${stock.name}"></td>
+                    <td th:text="${stock.storeName}"></td>
+                    <td th:text="${stock.stock}"></td>
+                </tr>
+            </tbody>
+        </table>
+     </div>
+    
+</body>
+</html>
