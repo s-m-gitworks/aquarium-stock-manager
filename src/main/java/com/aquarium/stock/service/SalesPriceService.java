@@ -27,6 +27,8 @@ public class SalesPriceService {
      * @return 登録・更新した販売価格
      */
     public SalesPrice save(SalesPrice salesPrice) {
+        int priceIncludingTax = (int) Math.floor(salesPrice.getPriceExcludingTax() * 1.1);
+        salesPrice.setPriceIncludingTax(priceIncludingTax);
         return salesPriceRepository.save(salesPrice);
     }
 
