@@ -1,16 +1,20 @@
 package com.aquarium.stock.entity;
 
 public enum LossReason {
-    //** 死着 */
-    DEAD_ON_ARRIVAL,
-    /** 病気 */
-    DISEASE,
-    /** 飛び出し */
-    JUMPED_OUT,
-    /** 管理不足 */
-    POOR_MANAGEMENT,
-    /** 原因不明 */
-    UNKNOWN,
-    /** その他 */
-    OTHER
+    DEAD_ON_ARRIVAL("死着"),
+    DISEASE("病気"),
+    JUMPED_OUT("飛び出し"),
+    POOR_MANAGEMENT("管理不足"),
+    UNKNOWN("原因不明"),
+    OTHER("その他");
+
+    private final String displayName;
+
+    LossReason(String displayName){
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName(){
+        return displayName;
+    }
 }

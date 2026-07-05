@@ -75,7 +75,7 @@
             <select th:field="*{status}" required>
                 <option th:each="status : ${arrivalStatuses}"
                         th:value="${status}"
-                        th:text="${status}">
+                        th:text="${status.displayName}">
                 </option>
             </select>
         </div>

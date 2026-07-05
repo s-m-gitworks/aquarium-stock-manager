@@ -50,7 +50,7 @@
                 <option value="">選択してください</option>
                 <option th:each="lossReason : ${lossReasons}"
                         th:value="${lossReason}"
-                        th:text="${lossReason}">
+                        th:text="${lossReason.displayName}">
                 </option>
             </select>
         </div>

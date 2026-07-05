@@ -50,7 +50,7 @@
                 <option value="">選択してください</option>
                 <option th:each="unit : ${salesUnits}"
                         th:value="${unit}"
-                        th:text="${unit}">
+                        th:text="${unit.displayName}">
                 </option>
             </select>
         </div>
