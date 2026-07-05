@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>入荷登録</title>
+    <title>販売登録</title>
 </head>
 <body>
-    <h1>入荷登録</h1>
-
-    <form th:action="@{/arrivals}" th:object="${arrival}" method="post">
+    <h1>販売登録</h1>
+    
+    <form th:action="@{/sales}" th:object="${sales}" method="post">
         <div>
             <label>店舗</label>
             <select th:field="*{store.id}" required>
@@ -23,7 +23,7 @@
         <div>
             <label>魚種</label>
             <select th:field="*{fishSpecies.id}" required>
-                <option value="">選択してください</option>
+                <option value="">選択して下さい</option>
                 <option th:each="fishSpecies : ${fishSpeciesList}"
                         th:value="${fishSpecies.id}"
                         th:text="${fishSpecies.name}">
@@ -32,32 +32,22 @@
         </div>
 
         <div>
-            <label>仕入先</label>
-            <select th:field="*{supplier.id}" required>
-                <option value="">選択して下さい</option>
-                <option th:each="supplier : ${suppliers}"
-                        th:value="${supplier.id}"
-                        th:text="${supplier.name}">
-                </option>
-            </select>
-        </div>
-
-        <div>
-            <label>入荷日</label>
+            <label>販売日</label>
             <input type="date"
-                    name="arrivalDate"
-                    th:value="${#temporals.format(arrival.arrivalDate, 'yyyy-MM-dd')}"
-                    required>
+                name="salesDate"
+                th:value="${#temporals.format(sales.salesDate, 'yyyy-MM-dd')}"
+                required>
         </div>
 
         <div>
-            <label>入荷数</label>
+            <label>販売数</label>
             <input type="number" th:field="*{quantity}" min="1" required>
         </div>
 
         <div>
             <label>単位</label>
-            <select th:field="*{unit}" required>
+            <select th:field="*{unit}">
+                <option value="">選択してください</option>
                 <option th:each="unit : ${salesUnits}"
                         th:value="${unit}"
                         th:text="${unit}">
@@ -66,25 +56,11 @@
         </div>
 
         <div>
-            <label>仕入単価</label>
-            <input type="number" th:field="*{costPrice}" step="0.1" min="0" required>
-        </div>
-        
-        <div>
-            <label>ステータス</label>
-            <select th:field="*{status}" required>
-                <option th:each="status : ${arrivalStatuses}"
-                        th:value="${status}"
-                        th:text="${status}">
-                </option>
-            </select>
+            <label>販売価格(税抜)</label>
+            <input type="number" th:field="*{priceExcludingTax}" min="0">
         </div>
 
         <button type="submit">登録</button>
     </form>
-
-    <p>
-        <a th:href="@{/stocks}">在庫一覧へ戻る</a>
-    </p>
 </body>
 </html>

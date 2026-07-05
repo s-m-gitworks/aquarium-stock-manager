@@ -30,12 +30,15 @@ public class SalesService {
      * @return 登録・更新した販売
      */
     public Sales save(Sales sales){
-                if (sales.getPriceExcludingTax() == null){
+        if (sales.getPriceExcludingTax() == null){
             SalesPrice price = salesPriceRepository.findByFishSpecies_Id(sales.getFishSpecies().getId())
                  .orElseThrow(() -> new IllegalStateException("価格が登録されていません"));
 
             sales.setPriceExcludingTax(price.getPriceExcludingTax());
             sales.setPriceIncludingTax(price.getPriceIncludingTax());
+        } else {
+            int priceIncludingTax = (int) Math.floor(sales.getPriceExcludingTax() * 1.1);
+            sales.setPriceIncludingTax(priceIncludingTax);
         }
         
         return salesRepository.save(sales);
