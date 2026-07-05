@@ -31,7 +31,7 @@ public class SalesService {
      */
     public Sales save(Sales sales){
         if (sales.getPriceExcludingTax() == null){
-            SalesPrice price = salesPriceRepository.findByFishSpecies_Id(sales.getFishSpecies().getId())
+            SalesPrice price = salesPriceRepository.findByFishSpeciesIdAndQuantityAndUnit(sales.getFishSpecies().getId(), sales.getQuantity(), sales.getUnit())
                  .orElseThrow(() -> new IllegalStateException("価格が登録されていません"));
 
             sales.setPriceExcludingTax(price.getPriceExcludingTax());

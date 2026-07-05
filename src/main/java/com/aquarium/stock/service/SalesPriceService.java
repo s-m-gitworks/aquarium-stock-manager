@@ -1,11 +1,13 @@
 package com.aquarium.stock.service;
 
 import com.aquarium.stock.entity.SalesPrice;
+import com.aquarium.stock.entity.SalesUnit;
 import com.aquarium.stock.repository.SalesPriceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,17 @@ public class SalesPriceService {
      */
     public List<SalesPrice> findAll() {
         return salesPriceRepository.findAll();
+    }
+    
+    /**
+     * 特定の魚種の販売価格を取得
+     * @param fishSpeciesId 魚種ID
+     * @param quantity 数量
+     * @param unit 単位
+     * @return 販売価格
+     */
+    public Optional<SalesPrice> findByFishSpeciesId(Long fishSpeciesId, Integer quantity, SalesUnit unit) {
+        return salesPriceRepository.findByFishSpeciesIdAndQuantityAndUnit(fishSpeciesId, quantity, unit);
     }
 
     /**

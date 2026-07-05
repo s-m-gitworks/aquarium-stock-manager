@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.aquarium.stock.entity.FishSpecies;
 import com.aquarium.stock.entity.Sales;
 import com.aquarium.stock.entity.SalesPrice;
+import com.aquarium.stock.entity.SalesUnit;
 import com.aquarium.stock.repository.SalesPriceRepository;
 import com.aquarium.stock.repository.SalesRepository;
 
@@ -66,7 +67,7 @@ class SalesServiceTest {
         salesPrice.setPriceExcludingTax(480);
         salesPrice.setPriceIncludingTax(548);
 
-        when(salesPriceRepository.findByFishSpecies_Id(1L)).thenReturn(Optional.of(salesPrice));
+        when(salesPriceRepository.findByFishSpeciesIdAndQuantityAndUnit(1L, 1, SalesUnit.INDIVIDUAL)).thenReturn(Optional.of(salesPrice));
         when(salesRepository.save(sale)).thenReturn(sale);
         
         //実行
