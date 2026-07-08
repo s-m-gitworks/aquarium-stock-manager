@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>販売価格一覧</title>
+</head>
+<body>
+    <h1>販売価格一覧</h1>
+    <table border="1">
+        <tr>
+            <th>種類</th>
+            <th>数量</th>
+            <th>単位</th>
+            <th>仕入単価</th>
+            <th>販売単価(税抜)</th>
+            <th>販売価格(税込)</th>
+            <th>粗利</th>
+        </tr>
+        <tr th:each="priceComparison : ${priceComparisons}">
+            <td th:text="${priceComparison.fishSpeciesName}"></td>
+            <td th:text="${priceComparison.quantity}"></td>
+            <td th:text="${priceComparison.unitDisplayName}"></td>
+            <td th:text="${priceComparison.latestCostPrice != null ? priceComparison.latestCostPrice : '-'}"></td>
+            <td th:text="${priceComparison.priceExcludingTax != null ? priceComparison.priceExcludingTax : '-'}"></td>
+            <td th:text="${priceComparison.priceIncludingTax != null ? priceComparison.priceIncludingTax : '-'}"></td>
+            <td th:text="${priceComparison.grossProfit != null ? priceComparison.grossProfit : '-'}"></td>
+        </tr>
+    </table>
+</body>
+</html>

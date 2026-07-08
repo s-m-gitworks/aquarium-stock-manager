@@ -1,5 +1,4 @@
 package com.aquarium.stock.controller;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,5 +45,13 @@ public class SalesPriceViewController {
         return "redirect:/stocks";
     }
 
+    /**
+     * 仕入・販売価格一覧画面を表示する
+     */
+    @GetMapping("/sales-prices")
+    public String showSalesPrices(Model model){
+        model.addAttribute("priceComparisons", salesPriceService.findPriceComparisons());
+        return "sales-prices/index";
+    }
 
 }

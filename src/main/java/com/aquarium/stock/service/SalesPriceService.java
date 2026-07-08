@@ -1,11 +1,15 @@
 package com.aquarium.stock.service;
 
+import com.aquarium.stock.dto.PriceComparisonDto;
+import com.aquarium.stock.entity.Arrival;
 import com.aquarium.stock.entity.SalesPrice;
 import com.aquarium.stock.entity.SalesUnit;
+import com.aquarium.stock.repository.ArrivalRepository;
 import com.aquarium.stock.repository.SalesPriceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +18,7 @@ import java.util.Optional;
 public class SalesPriceService {
     
     private final SalesPriceRepository salesPriceRepository;
+    private final ArrivalRepository arrivalRepository;
 
     /**
      * 全件取得
@@ -51,5 +56,37 @@ public class SalesPriceService {
      */
     public void delete(Long id) {
         salesPriceRepository.deleteById(id);
+    }
+
+    public List<PriceComparisonDto> findPriceComparisons(){
+        List<SalesPrice> salesPriceList = salesPriceRepository.findAll();
+        List<PriceComparisonDto> priceComparisons = new ArrayList<>();
+
+        for (SalesPrice salesPrice : salesPriceList){
+
+            Arrival latestArrival = arrivalRepository
+                .findTopByFishSpecies_IdOrderByArrivalDateDesc(salesPrice.getFishSpecies().getId())
+                .orElse(null);
+            Double latestCostPrice = null;
+            Double grossProfit = null;
+
+            if (latestArrival != null){
+                latestCostPrice = latestArrival.getCostPrice();
+                grossProfit = salesPrice.getPriceExcludingTax() - latestCostPrice * salesPrice.getQuantity();
+            }
+
+            PriceComparisonDto dto = new PriceComparisonDto(
+                salesPrice.getFishSpecies().getName(),
+                salesPrice.getQuantity(),
+                salesPrice.getUnit().getDisplayName(),
+                latestCostPrice,
+                salesPrice.getPriceExcludingTax(),
+                salesPrice.getPriceIncludingTax(),
+                grossProfit
+            );
+
+            priceComparisons.add(dto);
+        }
+        return priceComparisons;
     }
 }
